@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Me Form</title>
+    <link rel="stylesheet" href="css/style.css">
+   <style>
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 50px auto;
+    background: #000434;
+    color: #E2E5FF;
+    padding: 60px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(165, 162, 200, 1);
+    /* margin: auto ;
+         opacity: 0;
+         transform: translateY(30px);
+         transition: opacity 1s ease, transform 1s ease;
+         padding: 60px 20px;
+         border-radius :10px ;
+         box-shadow: 0 5px 20px rgba(165, 162, 200, 1);
+         margin-top: 18px;
+         width:98%;
+         max-width: 800px;*/
+}
+
+p {
+    text-align: center;
+    font-size : 40px ;
+    font-family: Arial ;
+    font-weight: bold ;
+    
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    background :#000434 ;
+    color : #E2E5FF ;
+    font-size : 18px;
+    font-family: Arial;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #00057C;
+    border-radius: 5px;
+    width: 90%;
+    box-shadow: 0 0 5px rgba(191, 193, 250, 1);
+}
+
+button {
+   font-size: 15px ;
+    margin-top: 20px;
+    background: #0800A4;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #EDECFF;
+    color: #0800A4;
+}
+   </style>
+</head>
+<body>
+    <div class="container">
+        <p>Hire Me</p>
+        <form id="hireForm">
+            <!-- ব্যক্তিগত তথ্য -->
+            <label>Full Name</label>
+            <input type="text" id="name" required>
+            
+            <label>Email Address</label>
+            <input type="email" id="email" required>
+
+            <label>Phone Number</label>
+            <input type="tel" id="phone" required>
+
+            <label>Company/Organization Name (if any)</label>
+            <input type="text" id="company">
+
+            <label>Country</label>
+            <input type="text" id="country">
+
+            <label>City</label>
+            <input type="text" id="city">
+
+            <label>Preferred Contact Method</label>
+            <select id="contactMethod">
+                <option>Email</option>
+                <option>Phone</option>
+                <option>WhatsApp</option>
+                <option>Telegram</option>
+                <option>Other</option>
+            </select>
+
+            <!-- প্রকল্প সম্পর্কিত তথ্য -->
+            <label>Project Title</label>
+            <input type="text" id="projectTitle" required>
+
+            <label>Project Description</label>
+            <textarea id="projectDescription" required></textarea>
+
+            <label>Project Type</label>
+            <select id="projectType">
+                <option>Ethical Hacking</option>
+                <option>Penetration Testing</option>
+                <option>Web Security</option>
+                <option>Cyber Security Consultancy</option>
+                <option>Malware Analysis</option>
+                <option>Data Recover</option>
+                <option>Data Forensic</option>
+                <option>SecurityMonitoring</option>
+                <option>Phishing</option>
+                <option>Personal Protection</option>
+                <option>Company Security</option>
+                <option>Other</option>
+            </select>
+
+            <label>Skills Required</label>
+            <input type="text" id="skills">
+
+            <label>Budget Range</label>
+            <select id="budget">
+                <option>$100 - $500</option>
+                <option>$500 - $1000</option>
+                <option>$1000 - $5000</option>
+                <option>$5000+</option>
+            </select>
+
+            <label>Timeline/Deadline</label>
+            <input type="date" id="deadline">
+
+            <label>Level of Urgency</label>
+            <select id="urgency">
+                <option>Normal (1-2 Weeks)</option>
+                <option>High Priority (3-7 Days)</option>
+                <option>Urgent (Within 48 Hours)</option>
+            </select>
+
+            <label>How Did You Find Me?</label>
+            <select id="foundMe">
+                <option>Google Search</option>
+                <option>Social Media</option>
+                <option>Referral</option>
+                <option>Freelance Platform</option>
+                <option>Other</option>
+            </select>
+
+            <!-- অতিরিক্ত তথ্য -->
+            <label>Preferred Working Hours</label>
+            <input type="text" id="workHours">
+
+            <label>Additional Requirements</label>
+            <input type="text" id="additionalReq">
+
+            <label>Will You Require Ongoing Support?</label>
+            <select id="ongoingSupport">
+                <option>Yes</option>
+                <option>No</option>
+                <option>Maybe</option>
+            </select>
+
+            <label>Attachments (if any)</label>
+            <input type="file" id="attachment">
+
+            <label>Any Other Comments or Questions?</label>
+            <textarea id="comments"></textarea>
+
+            <button type="submit">Submit Request</button>
+        </form>
+    </div>
+    <script>
+       document.getElementById('hireForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
+    let projectTitle = document.getElementById('projectTitle').value;
+    let projectDescription = document.getElementById('projectDescription').value;
+    
+    if (name === '' || email === '' || phone === '' || projectTitle === '' || projectDescription === '') {
+        alert("Please fill in all required fields.");
+        return;
+    }
+
+    let formData = {
+        name: name,
+        email: email,
+        phone: phone,
+        projectTitle: projectTitle,
+        projectDescription: projectDescription
+    };
+
+    console.log("Form Submitted Successfully", formData);
+    alert("Your request has been submitted successfully!");
+    document.getElementById('hireForm').reset();
+});
+    </script>
+</body>
+</html>

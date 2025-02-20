@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Gallery of Memories</title>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+   <style>
+      body {
+         margin: 0;
+         padding: 20px;
+         background-color: #0b0b5a;
+         font-family: 'Arial', sans-serif;
+         color: white;
+         text-align: center;
+         align-items: center;
+         overflow-x: hidden;
+      }
+
+      h1 {
+         font-size: 50px;
+         color: #2EB6CC;
+         margin-bottom: 20px;
+      }
+
+      h1::after {
+         content: '';
+         display: block;
+         width: 300px;
+         height: 3px;
+         background-color: #42445A;
+         box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+         border-radius: 10px;
+         margin: 10px auto;
+      }
+
+
+      .gallery-container {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: relative;
+         width: 90%;
+         margin: auto;
+         opacity: 0;
+         transform: translateY(30px);
+         transition: opacity 1s, transform 1s;
+      }
+
+      .gallery {
+         display: flex;
+         flex-direction: row;
+         overflow-x: auto;
+         white-space: nowrap;
+         scroll-behavior: smooth;
+         gap: 10px;
+         padding: 15px;
+         margin-bottom: 50px;
+         width: 100%;
+         height: 100%;
+         border: 2px solid #42445A;
+         border-radius: 10px;
+         box-shadow: 0px 5px 5px 5px rgba(255, 255, 255, 0.15);
+      }
+
+
+      .gallery img {
+         width: 150px;
+         height: 200px;
+         object-fit: cover;
+         border-radius: 10px;
+         transition: transform 0.3s ease-in-out;
+      }
+
+      .gallery img:hover {
+         transform: scale(1.1);
+      }
+
+      .arrow {
+         font-size: 2em;
+         cursor: pointer;
+         padding: 10px;
+         color: white;
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+      }
+
+      .arrow arrow-icon {
+         background: #2EB6CC;
+         color: #FFFFFF;
+      }
+
+      .arrow-left {
+         left: -40px;
+      }
+
+      .arrow-right {
+         right: -40px;
+      }
+
+      @media (max-width: 600px) {
+         .gallery img {
+            width: 100px;
+            height: 150px;
+         }
+      }
+
+
+
+      /* team member section css */
+      .team-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+      }
+
+      .team-member {
+         background-color: #4B0000;
+         border: 1px solid #42445A;
+         border-radius: 5px;
+         width: 40%;
+         margin: 7px;
+         box-sizing: border-box;
+         text-align: left;
+      }
+
+      .team-member img {
+         border: 1px solid white;
+         border-radius: 50%;
+         width: 50px;
+         height: 50px;
+         display: block;
+         margin: 0 auto 5px;
+      }
+
+      .team-member h2 {
+         font-size: 20px;
+         margin: 4px auto 0px;
+         text-align: center;
+      }
+
+      .team-member p {
+         font-size: 9px;
+         margin: 5px;
+         text-align: center;
+      }
+
+      .team-member .description {
+         border-top: 1px dashed white;
+         border-radius: 5px;
+         padding: 5px;
+         margin-top: 7px;
+         font-size: 0.5em;
+         text-align: center;
+      }
+
+      @media (max-width: 200px) {
+         .team-member {
+            width: 100%;
+         }
+      }
+
+
+      .skill {
+         margin: 20px 0;
+      }
+
+      .skill-name {
+         font-size: 1.5em;
+         margin-bottom: 10px;
+         color: #2EB6CC;
+      }
+
+      .meter {
+         height: 15px;
+         width: 100%;
+         position: relative;
+         align-content: left;
+         background: #333;
+         border: 1px solid #AEBEFF;
+         border-radius: 10px;
+         margin-bottom: 10px;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+      }
+
+      .meter>span {
+         display: block;
+         height: 100%;
+         border-radius: 10px;
+         background-color: #001152;
+         transition: width .5s ease-in-out;
+      }
+
+      .skill-percentage {
+         padding: 8px;
+         font-size: 1.2em;
+         margin: 0px 10px 0px 100px;
+         align-items: center;
+      }
+
+      .skill-container {
+         margin-bottom: 30px;
+      }
+
+      .skill-input {
+         background: #1e1e1e;
+         border: 2px solid #42445A;
+         border-radius: 10px;
+         color: #fff;
+         padding: 10px;
+         font-size: 1em;
+         margin-top: 15px;
+         width: 300px;
+      }
+
+      .submit-btn {
+         background-color: #2EB6CC;
+         color: #fff;
+         border: none;
+         padding: 10px 20px;
+         font-size: 1.2em;
+         border-radius: 5px;
+         cursor: pointer;
+         margin-top: 20px;
+      }
+
+      .submit-btn:hover {
+         background-color: #42445A;
+      }
+
+
+      .area {
+         width: 85%;
+         margin-bottom: 10px;
+         text-align: center;
+         background: #000000;
+         border: 2px solid #42445A;
+         border-radius: 10px;
+         box-shadow: 0px 5px 8px 5px rgba(255, 255, 255, 0.15);
+         padding: 30px;
+         opacity: 0;
+         transform: translateY(30px);
+         transition: opacity 1s, transform 1s;
+      }
+
+      .area:hover {
+         background: #000015;
+      }
+
+
+      form {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         margin: auto;
+      }
+
+      label {
+         font-size: 22px;
+         font-weight: bold;
+         color: #2EB6CC;
+         margin: 10px 0;
+      }
+
+      input,
+      select,
+      textarea {
+         background-color: black;
+         color: white;
+         border: 2px solid #42445A;
+         border-radius: 10px;
+         padding: 10px;
+         width: 100%;
+         font-family: 'Arial', sans-serif;
+         font-size: 15px;
+         margin-bottom: 20px;
+         box-shadow: 0 5px 8px rgba(255, 255, 255, 0.2);
+         transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+         background-color: #000015;
+         color: white;
+         font-weight: bold;
+         transform: scale(1.07);
+      }
+
+      textarea {
+         height: 100px;
+      }
+
+      .submit-btn {
+         background-color: black;
+         color: rgba(0, 255, 200, 1);
+         border: 2px solid #42445A;
+         border-radius: 10px;
+         padding: 10px 20px;
+         width: 40%;
+         font-size: 23px;
+         font-weight: bold;
+         cursor: pointer;
+         box-shadow: 0 5px 8px rgba(255, 255, 255, 0.2);
+      }
+
+      .submit-btn span {
+         color: #F3FF0C;
+      }
+
+      .submit-btn:hover {
+         background-color: white;
+         color: black;
+         transform: scaleX(1.07);
+      }
+
+
+      /* Setisfy Client Section CSS */
+      .client_review-container {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: center;
+
+      }
+
+      .client_review {
+         background-color: white;
+         border-radius: 5px;
+         padding: 8px;
+         margin: 7px;
+         max-width: 40%;
+         text-align: center;
+      }
+
+      .client_review img {
+         border-radius: 50%;
+         width: 50px;
+         height: 50px;
+      }
+
+      .client_review .name {
+         font-weight: bold;
+         color: #4a4a4a;
+      }
+
+      .client_review .role {
+         color: #4a4a4a;
+      }
+
+      .client_review .location {
+         color: #888;
+         font-size: 0.8em;
+      }
+
+      .client_review .stars {
+         color: #f39c12;
+      }
+
+      .client_review .quote {
+         margin-top: 10px;
+         font-size: 0.7em;
+         color: #555;
+         border-top: 1px dashed #474844;
+         border-radius: 5px;
+         padding-top: 5px;
+      }
+
+      /*Footer Section CSS */
+      .footer {
+         display: fixed;
+         background-color: #000000;
+         text-align: center;
+         flex-wrap: wrap;
+         padding: 10px;
+         margin-top: 15px;
+         border-top: 1px solid white;
+      }
+
+      .copyright {
+         font-size: 14px;
+      }
+   </style>
+</head>
+
+<body>
+
+   <div class="area">
+      <h1>GALLERY OF MEMORIES</h1>
+      <div class="gallery-container">
+
+         <div class="arrow arrow-left" onclick="scrollGallery(-1)">
+            <img class="arrow-icon" src=" /ICON/arrow-left.png " alt="" />
+         </div>
+
+         <div class="gallery" id="gallery">
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+            <img src="/PICTURE/picture.png" />
+
+         </div>
+
+         <div class="arrow arrow-right" onclick="scrollGallery(1)">
+            <img class="arrow-icon" src="/ICON/arrow-right.png " alt="" />
+
+         </div>
+
+      </div>
+   </div>
+   <!--Team Member Section-->
+
+   <div class=" area team-container">
+      <h1> My Team </h1>
+      <div class="team-member">
+         <!-- team member picture -->
+         <img alt="Profile image placeholder" src="image/profile.png" />
+         <!-- team member name and title-->
+         <h2>
+            Sakib Sheikh
+         </h2>
+         <p class="job_title"> Programmer | Ethical Hacker </p>
+         <!-- team member description -->
+         <div class="description">
+            <p>
+               Our journey will not only highlight these cunning strategies,
+               from ransomware to phishing but also arm you with practical defenses.
+               With real-world examples and tailored protection tips,
+               this guide is your ally in building a robust digital defense,
+               no matter your level of tech expertise.
+            </p>
+         </div>
+      </div>
+      <div class="team-member">
+         <!-- team member picture -->
+         <img alt="Profile image placeholder" src="image/profile.png" />
+         <!-- team member name and title-->
+         <h2>
+            Rakibil Islam
+         </h2>
+         <p class="job_title"> Programmer | Ethical Hacker </p>
+         <!-- team member description -->
+         <div class="description">
+            <p>
+               Our journey will not only highlight these cunning strategies,
+               from ransomware to phishing but also arm you with practical defenses.
+               With real-world examples and tailored protection tips,
+               this guide is your ally in building a robust digital defense,
+               no matter your level of tech expertise.
+            </p>
+         </div>
+      </div>
+      <div class="team-member">
+         <!-- team member picture -->
+         <img alt="Profile image placeholder" src="image/profile.png" />
+         <!-- team member name and title-->
+         <h2>
+            Sakib Sheikh
+         </h2>
+         <p class="job_title"> Programmer | Ethical Hacker </p>
+         <!-- team member description -->
+         <div class="description">
+            <p>
+               Our journey will not only highlight these cunning strategies,
+               from ransomware to phishing but also arm you with practical defenses.
+               With real-world examples and tailored protection tips,
+               this guide is your ally in building a robust digital defense,
+               no matter your level of tech expertise.
+            </p>
+         </div>
+      </div>
+      <div class="team-member">
+         <!-- team member picture -->
+         <img alt="Profile image placeholder" src="image/profile.png" />
+         <!-- team member name and title-->
+         <h2>
+            Sakib Sheikh
+         </h2>
+         <p class="job_title"> Programmer | Ethical Hacker </p>
+         <!-- team member description -->
+         <div class="description">
+            <p>
+               Our journey will not only highlight these cunning strategies,
+               from ransomware to phishing but also arm you with practical defenses.
+               With real-world examples and tailored protection tips,
+               this guide is your ally in building a robust digital defense,
+               no matter your level of tech expertise.
+            </p>
+         </div>
+      </div>
+      <div class="team-member">
+         <!-- team member picture -->
+         <img alt="Profile image placeholder" src="image/profile.png" />
+         <!-- team member name and title-->
+         <h2>
+            Rakib Islam
+         </h2>
+         <p class="job_title"> Programmer | Ethical Hacker </p>
+         <!-- team member description -->
+         <div class="description">
+            <p>
+               Our journey will not only highlight these cunning strategies,
+               from ransomware to phishing but also arm you with practical defenses.
+               With real-world examples and tailored protection tips,
+               this guide is your ally in building a robust digital defense,
+               no matter your level of tech expertise.
+            </p>
+         </div>
+      </div>
+   </div>
+
+
+   <div class="area">
+      <h1>MY SKILLS</h1>
+
+      <div id="skillsList">
+         <!-- Skill List Will Appear Here -->
+      </div>
+
+      <div class="skill-container">
+         <input class="skill-input" type="text" id="skillName" placeholder="Skill Name" />
+         <input class="skill-input" type="number" id="skillPercentage" placeholder="Skill Level (0-100)" max="100" min="0" />
+         <button class="submit-btn" onclick="addSkill()">Add Skill</button>
+      </div>
+   </div>
+
+   <!--Client Review Section-->
+   <div class="area client_review-container">
+      <h1>Setisfy Clients</h1>
+      <div class="client_review">
+         <!-- client pictures -->
+
+         <img alt="Profile picture of Justine P." src="/PICTURE/picture.png.png" />
+         <!-- client name and title and address-->
+         <div class="name">Justine</div>
+         <div class="role">E-Commerce</div>
+         <div class="location">Brisbane | Australia </div>
+         <!-- Client give Star-->
+         <div class="stars">
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+         </div>
+         <!-- Client Comment About Me -->
+         <div class="quote">
+            My business is pretty complicated.
+            My account manager is always in contact with me and makes sure
+            my books are done on time. It's clear that she cares
+            and wants me to grow!"
+         </div>
+      </div>
+      <div class="client_review">
+         <!-- client pictures -->
+         <img alt="Profile picture of Justine P." src="image/profile.png" />
+         <!-- client name and title and address-->
+         <div class="name">Justine</div>
+         <div class="role">E-Commerce</div>
+         <div class="location">Brisbane | Australia </div>
+         <!-- Client give Star-->
+         <div class="stars">
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+         </div>
+         <!-- Client Comment About Me -->
+         <div class="quote">
+            My business is pretty complicated.
+            My account manager is always in contact with me and makes sure
+            my books are done on time. It's clear that she cares
+            and wants me to grow!"
+         </div>
+      </div>
+      <div class="client_review">
+         <!-- client pictures -->
+         <img alt="Profile picture of Justine P." src="image/profile.png" />
+         <!-- client name and title and address-->
+         <div class="name">Jackson</div>
+         <div class="role">E-Commerce</div>
+         <div class="location">Brisbane | Australia </div>
+         <!-- Client give Star-->
+         <div class="stars">
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+         </div>
+         <!-- Client Comment About Me -->
+         <div class="quote">
+            My business is pretty complicated.
+            My account manager is always in contact with me and makes sure
+            my books are done on time. It's clear that she cares
+            and wants me to grow!"
+         </div>
+      </div>
+      <div class="client_review">
+         <!-- client pictures -->
+         <img alt="Profile picture of Justine P." src="image/profile.png" />
+         <!-- client name and title and address-->
+         <div class="name">Justin</div>
+         <div class="role">E-Commerce</div>
+         <div class="location">Brisbane | Australia </div>
+         <!-- Client give Star-->
+         <div class="stars">
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+            <i class="fas fa-star">⭐</i>
+         </div>
+         <!-- Client Comment About Me -->
+         <div class="quote">
+            My business is pretty complicated.
+            My account manager is always in contact with me and makes sure
+            my books are done on time. It's clear that she cares
+            and wants me to grow!"
+         </div>
+      </div>
+   </div>
+
+
+   <div class="area">
+      <h1>CONTACT ME</h1>
+      <form id="hireForm">
+         <label for="name">Your Name</label>
+         <input type="text" id="name" placeholder="Your Full Name">
+
+         <label for="phone">Phone Number</label>
+         <input type="number" id="phone" placeholder="Your Contact Number">
+
+         <label for="email">Email Address</label>
+         <input type="email" id="email" placeholder="Your Email Address">
+
+         <label>How Did You Find Me?</label>
+         <select id="foundMe">
+            <option>Select Source</option>
+            <option>Google Search</option>
+            <option>Social Media</option>
+            <option>Referral</option>
+            <option>Freelance Platform</option>
+            <option>Other</option>
+         </select>
+
+         <textarea id="comments" placeholder="Please Write The Message Here."></textarea>
+         <button type="submit" class="submit-btn">Submit <span class="submit_click_count">0</span></button>
+      </form>
+   </div>
+   <!-- Footer Section -->
+   <footer>
+      <div class=" area footer-content">
+         <h1>Follow Us</h1>
+         <div class="">
+            <a href="https://www.facebook.com" class="social-link">ফেসবুক</a>
+            <a href="https://www.twitter.com" class="social-link">টুইটার</a>
+            <a href="https://www.linkedin.com" class="social-link">লিঙ্কডইন</a>
+
+            <!-- footer privacy -->
+            <div class="contact_me_link">
+               <a href="#">Privacy Policy</a>
+               <a href="#">Terms of Service</a>
+               <a href="#">Support</a>
+            </div>
+            <!-- footer copyright-->
+            <div class="copyright">
+               © 2023 My Portfolio. All rights reserved.
+            </div>
+
+
+         </div>
+   </footer>
+
+   <script>
+      function scrollGallery(direction) {
+         const gallery = document.getElementById('gallery');
+         const scrollAmount = direction * 200; // স্ক্রোল স্পিড
+         gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+         let count = 0; // ক্লিক কাউন্ট শুরু হবে 0 থেকে
+         let countSpan = document.querySelector(".submit_click_count");
+
+         document.getElementById("hireForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // পেজ রিফ্রেশ বন্ধ করতে
+
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let phone = document.getElementById('phone').value;
+
+            if (name === '' || email === '' || phone === '') {
+               alert("Please fill in all required fields.");
+               return;
+            }
+
+            count++; // কাউন্ট বাড়ানো
+
+            function formatCount(num) {
+               if (num < 1000) return num;
+               if (num < 1000000) return (num / 1000).toFixed(1).replace(".0", "") + "K";
+               if (num < 1000000000) return (num / 1000000).toFixed(1).replace(".0", "") + "M";
+               return (num / 1000000000).toFixed(1).replace(".0", "") + "B";
+            }
+
+            countSpan.textContent = formatCount(count);
+
+            console.log("Form Submitted Successfully", { name, email, phone });
+            alert("Your request has been submitted successfully!");
+
+            document.getElementById('hireForm').reset();
+         });
+
+         let yearSpan = document.querySelector(".current-year");
+         if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+         }
+
+         document.querySelectorAll(".social-link").forEach(link => {
+            link.addEventListener("click", function(event) {
+               event.preventDefault();
+               let social = this.textContent.trim();
+               alert(social + " লিংকে যাচ্ছেন...");
+               window.location.href = this.href;
+            });
+         });
+
+         window.addEventListener("scroll", function() {
+            const sections = document.querySelectorAll("h1, .gallery-container, .area, footer");
+            sections.forEach(section => {
+               const sectionPosition = section.getBoundingClientRect().top;
+               const windowHeight = window.innerHeight;
+               if (sectionPosition < windowHeight * 0.8) {
+                  section.style.opacity = '1';
+                  section.style.transform = 'translateY(0)';
+               }
+            });
+
+            const footer = document.querySelector("footer");
+            footer.classList.toggle("scrolled", window.scrollY > 100);
+         });
+      });
+
+
+      const skills = [
+         { name: "Website Development", level: 70 },
+         { name: "Programming", level: 80 },
+         { name: "Penetration Testing", level: 90 },
+         { name: "Vulnerability Assessment", level: 90 },
+         { name: "Digital Forensic", level: 80 },
+         { name: "Cryptography", level: 75 },
+         { name: "Social Engineering", level: 85 },
+         { name: "Cracking", level: 60 },
+         { name: "Digital Security", level: 65 }
+        ];
+
+      function renderSkills() {
+         const skillsList = document.getElementById('skillsList');
+         skillsList.innerHTML = '';
+
+         skills.forEach(skill => {
+            const skillElement = document.createElement('div');
+            skillElement.classList.add('skill');
+
+            skillElement.innerHTML = `
+                    <div class="skill-name">${skill.name}</div>
+                    <div class="meter">
+                        <span class="level" style="width: ${skill.level}% "> ${skill.level}%</span>
+                    </div>
+                `;
+
+            skillsList.appendChild(skillElement);
+         });
+      }
+
+      function addSkill() {
+         const skillName = document.getElementById('skillName').value;
+         const skillLevel = document.getElementById('skillPercentage').value;
+
+         if (skillName && skillLevel >= 0 && skillLevel <= 100) {
+            skills.push({ name: skillName, level: parseInt(skillLevel) });
+            renderSkills();
+
+            // Clear input fields
+            document.getElementById('skillName').value = '';
+            document.getElementById('skillPercentage').value = '';
+         } else {
+            alert('Please enter a valid skill name and level between 0 and 100.');
+         }
+      }
+
+      // Initial render
+      renderSkills();
+   </script>
+
+</body>
+
+</html>

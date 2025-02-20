@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Blog</title>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    :root {
+      --primary-color: #2d3436;
+      --secondary-color: #d63031;
+      --light-color: #f5f6fa;
+      --accent-color: #1877f2;
+    }
+    body {
+      line-height: 1.6;
+      background-color: var(--light-color);
+      scroll-behavior: smooth;
+    }
+    /* Header Styles */
+    header {
+      background: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--secondary-color);
+    }
+    .mobile-menu {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    /* Main Content */
+    main {
+      margin-top: 80px;
+      padding: 2rem 1rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /* Featured Post */
+    .featured-post {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    /* Categories Section */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .category-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    }
+    .category-card:hover {
+      transform: translateY(-5px);
+    }
+    .category-icon {
+      font-size: 2.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+    /* Blog Posts Grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .blog-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideUp 0.8s forwards;
+    }
+    .blog-card:hover {
+      transform: translateY(0);
+    }
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .blog-image {
+      height: 200px;
+      overflow: hidden;
+    }
+    .blog-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .blog-image img:hover {
+      transform: scale(1.05);
+    }
+    .blog-content {
+      padding: 1.5rem;
+    }
+    .blog-date {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .blog-title {
+      margin: 0.5rem 0;
+      color: var(--primary-color);
+    }
+    .blog-excerpt {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+    .read-more {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--secondary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .read-more:hover {
+      background: #c0392b;
+    }
+    /* Blog Post Details & Comment Section */
+    .post-details {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    }
+    .post-details h2 {
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+    .post-details p {
+      margin-bottom: 1rem;
+      color: #444;
+    }
+    .comment-toggle-btn {
+      display: inline-block;
+      margin: 1rem 0;
+      padding: 0.5rem 1rem;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .comment-toggle-btn:hover {
+      background: #145db2;
+    }
+    .comment-section {
+      margin-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1rem;
+      display: none; /* Hidden by default */
+    }
+    /* Comment Input using input type="text" */
+    #comment-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccd0d5;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      height: 40px;
+    }
+    .send-button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .send-button:hover {
+      background-color: #145db2;
+    }
+    .comments-list {
+      margin-top: 20px;
+    }
+    /* Comment Structure */
+    .comment {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+      background-color: #f7f7f7;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .comment.reply {
+      margin-left: 40px;
+      background-color: #eef3f8;
+    }
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      border: 2px solid var(--accent-color);
+    }
+    .comment-body {
+      flex: 1;
+    }
+    .comment-text {
+      margin: 0 0 5px 0;
+      font-size: 15px;
+      color: #333;
+    }
+    .comment-actions {
+      font-size: 13px;
+      color: #606770;
+      margin-top: 5px;
+    }
+    .comment-actions button {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      cursor: pointer;
+      margin-right: 8px;
+      padding: 0;
+      font-size: 13px;
+    }
+    .comment-actions button:hover {
+      text-decoration: underline;
+    }
+    .comment-timestamp {
+      margin-right: 12px;
+    }
+    /* Reply Input within Comments */
+    .reply-input-container {
+      margin-top: 10px;
+    }
+    .reply-input-container input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccd0d5;
+      border-radius: 6px;
+      font-size: 14px;
+      height: 35px;
+    }
+    .reply-input-container button {
+      margin-top: 5px;
+      padding: 8px 12px;
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .reply-input-container button:hover {
+      background-color: #145db2;
+    }
+    /* Footer Styles */
+    footer {
+      background: var(--primary-color);
+      color: white;
+      padding: 3rem 1rem;
+      margin-top: 4rem;
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .footer-section h3 {
+      margin-bottom: 1rem;
+    }
+    .footer-section ul {
+      list-style: none;
+    }
+    .footer-section ul li {
+      margin-bottom: 0.5rem;
+    }
+    .footer-section a {
+      color: white;
+      text-decoration: none;
+    }
+    .newsletter-form input {
+      padding: 0.5rem;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    /* Back-to-Top Button */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--secondary-color);
+      color: white;
+      padding: 0.8rem 1rem;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      display: none;
+      transition: background 0.3s;
+      z-index: 100;
+    }
+    #back-to-top:hover {
+      background: #c0392b;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu {
+        display: block;
+      }
+      .categories {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <nav class="nav-container">
+      <div class="logo">ProBlog</div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <i class="fas fa-bars mobile-menu"></i>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Featured Post -->
+    <section class="featured-post" id="home">
+      <h1>Welcome to ProBlog</h1>
+      <p>Your source for professional content and insights</p>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories" id="categories">
+      <div class="category-card">
+        <i class="fas fa-code category-icon"></i>
+        <h3>Technology</h3>
+        <p>Latest tech trends and innovations</p>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-briefcase category-icon"></i>
+        <h3>Business</h3>
+        <p>Business strategies and market updates</p>
+      </div>
+      <div class="category-card">
+        <i class="fas fa-paint-brush category-icon"></i>
+        <h3>Design</h3>
+        <p>Creative design concepts and inspiration</p>
+      </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="blog-grid" id="blog">
+      <!-- Example Blog Card -->
+      <div class="blog-card" style="animation-delay: 0.2s;">
+        <div class="blog-image">
+          <img src="https://source.unsplash.com/random/800x600" alt="Blog post">
+        </div>
+        <div class="blog-content">
+          <div class="blog-date">July 15, 2023</div>
+          <h2 class="blog-title">Future of Web Development</h2>
+          <p class="blog-excerpt">Exploring the latest trends in modern web development...</p>
+          <a href="#post-details" class="read-more">Read More</a>
+        </div>
+      </div>
+      <!-- More blog cards can be added here -->
+    </section>
+
+    <!-- Blog Post Details with Advanced Comment System -->
+    <section class="post-details" id="post-details">
+      <h2>Future of Web Development</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nec diam vel massa semper pretium. Nulla facilisi. Fusce tincidunt, nulla et hendrerit venenatis, velit ipsum lobortis elit, eget accumsan risus lectus vel nisl. Donec at erat nec turpis hendrerit luctus.</p>
+      <p>Sed volutpat eros ac sapien luctus, vel malesuada massa venenatis. Integer rutrum, turpis ut cursus commodo, sapien nulla blandit arcu, at dignissim erat lorem vitae enim.</p>
+      
+      <!-- Comment Toggle Button -->
+      <button class="comment-toggle-btn" id="toggle-comments">Show Comments</button>
+      
+      <!-- Advanced Comment Section (Hidden by Default) -->
+      <div class="comment-section" id="comment-section">
+        <!-- Comment Input -->
+        <input id="comment-input" type="text" placeholder="Write a comment..." />
+        <button id="send-comment" class="send-button">Post Comment</button>
+        <!-- Comments List -->
+        <div id="comments-list" class="comments-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>Professional blogging platform delivering quality content since 2023</p>
+      </div>
+      <div class="footer-section">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="#">Technology</a></li>
+          <li><a href="#">Business</a></li>
+          <li><a href="#">Design</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Newsletter</h3>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email">
+          <input type="submit" value="Subscribe">
+        </form>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back-to-Top Button -->
+  <button id="back-to-top"><i class="fas fa-chevron-up"></i></button>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    mobileMenu.addEventListener('click', () => {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Smooth Scroll for in-page links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Newsletter Form Submission
+    document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for subscribing!');
+      this.reset();
+    });
+
+    // Back-to-Top Button Functionality
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Toggle Comment Section Visibility
+    const toggleCommentsBtn = document.getElementById('toggle-comments');
+    const commentSection = document.getElementById('comment-section');
+    toggleCommentsBtn.addEventListener('click', () => {
+      if (commentSection.style.display === 'block') {
+        commentSection.style.display = 'none';
+        toggleCommentsBtn.textContent = 'Show Comments';
+      } else {
+        commentSection.style.display = 'block';
+        toggleCommentsBtn.textContent = 'Hide Comments';
+      }
+    });
+
+    // Advanced Comment System
+    // Function to create a comment element (supports nested replies)
+    function createCommentElement(text, isReply) {
+      const commentDiv = document.createElement("div");
+      commentDiv.classList.add("comment");
+      if(isReply) {
+        commentDiv.classList.add("reply");
+      }
+      
+      // User Avatar
+      const avatar = document.createElement("img");
+      avatar.classList.add("avatar");
+      avatar.src = "https://via.placeholder.com/50";
+      avatar.alt = "User Avatar";
+      
+      // Comment Body
+      const commentBody = document.createElement("div");
+      commentBody.classList.add("comment-body");
+      
+      const p = document.createElement("p");
+      p.classList.add("comment-text");
+      p.textContent = text;
+      
+      // Actions: Timestamp, Like, Reply, Delete
+      const actions = document.createElement("div");
+      actions.classList.add("comment-actions");
+      
+      const timestamp = document.createElement("span");
+      timestamp.classList.add("comment-timestamp");
+      timestamp.textContent = "Just now";
+      
+      const likeBtn = document.createElement("button");
+      likeBtn.classList.add("comment-like-button");
+      likeBtn.textContent = "Like (0)";
+      
+      const replyBtn = document.createElement("button");
+      replyBtn.classList.add("comment-reply-button");
+      replyBtn.textContent = "Reply";
+      
+      const deleteBtn = document.createElement("button");
+      deleteBtn.classList.add("comment-delete-button");
+      deleteBtn.textContent = "Delete";
+      
+      actions.appendChild(timestamp);
+      actions.appendChild(likeBtn);
+      actions.appendChild(replyBtn);
+      actions.appendChild(deleteBtn);
+      
+      // Container for nested replies
+      const replySection = document.createElement("div");
+      replySection.classList.add("reply-section");
+      
+      // Assemble comment body
+      commentBody.appendChild(p);
+      commentBody.appendChild(actions);
+      commentBody.appendChild(replySection);
+      
+      // Assemble main comment element
+      commentDiv.appendChild(avatar);
+      commentDiv.appendChild(commentBody);
+      
+      // Like Button Functionality
+      likeBtn.addEventListener("click", function(){
+        const currentText = likeBtn.textContent;
+        const countMatch = currentText.match(/\d+/);
+        let count = countMatch ? parseInt(countMatch[0]) : 0;
+        count++;
+        likeBtn.textContent = "Like (" + count + ")";
+      });
+      
+      // Reply Button Functionality
+      replyBtn.addEventListener("click", function(){
+        let existingReplyInput = commentBody.querySelector(".reply-input-container");
+        if(existingReplyInput) {
+          existingReplyInput.remove();
+        } else {
+          const replyContainer = document.createElement("div");
+          replyContainer.classList.add("reply-input-container");
+          const replyInput = document.createElement("input");
+          replyInput.type = "text";
+          replyInput.placeholder = "Write a reply...";
+          const replySendBtn = document.createElement("button");
+          replySendBtn.textContent = "Reply";
+          replySendBtn.addEventListener("click", function(){
+            const replyText = replyInput.value.trim();
+            if(replyText !== ""){
+              const replyComment = createCommentElement(replyText, true);
+              replySection.appendChild(replyComment);
+              replyContainer.remove();
+            } else {
+              alert("Please write a reply.");
+            }
+          });
+          replyContainer.appendChild(replyInput);
+          replyContainer.appendChild(replySendBtn);
+          commentBody.appendChild(replyContainer);
+        }
+      });
+      
+      // Delete Button Functionality
+      deleteBtn.addEventListener("click", function(){
+        if(confirm("Are you sure you want to delete this comment?")){
+          commentDiv.remove();
+        }
+      });
+      
+      return commentDiv;
+    }
+    
+    // Add main comment when "Post Comment" button is clicked
+    document.getElementById('send-comment').addEventListener('click', function() {
+      const commentInput = document.getElementById('comment-input');
+      const commentText = commentInput.value.trim();
+      if(commentText !== ""){
+        const comment = createCommentElement(commentText, false);
+        document.getElementById('comments-list').appendChild(comment);
+        commentInput.value = "";
+      } else {
+        alert("Please write a comment.");
+      }
+    });
+  </script>
+</body>
+</html>
